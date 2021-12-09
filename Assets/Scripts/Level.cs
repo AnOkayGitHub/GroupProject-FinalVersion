@@ -24,7 +24,7 @@ public class Level : MonoBehaviour
     [SerializeField] private float timeBetweenRoomCreation;
     [SerializeField] private float timeBeforeGeneration = 2f;
     [SerializeField] private bool waitForGenToHide = false;
-    [SerializeField] private bool doIntroMovie = true;
+    [SerializeField] public bool doIntroMovie = true;
     
     private Dictionary<Vector2, bool> grid = new Dictionary<Vector2, bool>();
     private List<Vector2> occupiedCells = new List<Vector2>();

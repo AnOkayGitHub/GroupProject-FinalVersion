@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color boosterColor;
     [SerializeField] private Color armorColor;
     [SerializeField] private Color nvgColor;
+    [SerializeField] private Level level;
 
     [SerializeField] private float speed = 100;
     [SerializeField] private float projClickDelay = 1f;
@@ -67,9 +68,10 @@ public class PlayerController : MonoBehaviour
     private bool lightOn = false;
     private bool[] hasItem = new bool[] { false, false, false, false, false, false, false };
     private bool isBusy = false;
-    private bool lost = false;
     private bool isPaused = false;
     private bool playedTutorial = false;
+    private bool colorChanged = false;
+    private bool healthAdded = false;
     
     private void Start()
     {
@@ -103,6 +105,11 @@ public class PlayerController : MonoBehaviour
 
         if (World.readyToPlay)
         {
+            if(level.doIntroMovie)
+            {
+                level.doIntroMovie = false;
+            }
+
             if(!playedTutorial)
             {
                 playedTutorial = true;
@@ -219,10 +226,14 @@ public class PlayerController : MonoBehaviour
                     break;
                 case "NVG":
                     hasItem[1] = true;
-                    World.globalLight.intensity = 0.6f;
-                    colorAdjustment.active = true;
-                    colorAdjustment.colorFilter.value = nvgColor;
-                    colorAdjustment.saturation.value = 1;
+                    if (!colorChanged)
+                    {
+                        colorChanged = true;
+                        World.globalLight.intensity = 0.6f;
+                        colorAdjustment.active = true;
+                        colorAdjustment.colorFilter.value = nvgColor;
+                        colorAdjustment.saturation.value = 1;
+                    }
                     break;
                 case "Bionic Peg Leg":
                     hasItem[2] = true;
@@ -239,10 +250,14 @@ public class PlayerController : MonoBehaviour
                     break;
                 case "Armor":
                     hasItem[6] = true;
-                    uiUpdater.GetPlayerHealthbar().color = armorColor;
-                    maxHealth += 100;
-                    currentHealth = maxHealth;
-                    UpdateHealth();
+                    if(!healthAdded)
+                    {
+                        healthAdded = true;
+                        uiUpdater.GetPlayerHealthbar().color = armorColor;
+                        maxHealth += 100;
+                        currentHealth = maxHealth;
+                        UpdateHealth();
+                    }
                     break;
             }
         }
