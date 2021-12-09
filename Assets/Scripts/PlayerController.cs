@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     private bool lightOn = false;
     private bool[] hasItem = new bool[] { false, false, false, false, false, false, false };
     private bool isBusy = false;
+    private bool lost = false;
     private bool isPaused = false;
     private bool playedTutorial = false;
     private bool colorChanged = false;
