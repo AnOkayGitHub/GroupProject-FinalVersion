@@ -545,12 +545,12 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.95554924, a: 1}
   - {r: 1, g: 0.59982157, b: 0, a: 1}
   bossAttackIndex: 0
-  moveSpeed: 3200
+  moveSpeed: 8000
   searchRadius: 8
   attackRadius: 1.5
   randomMoveDelay: 1.5
   sleepTime: 1
-  attackTimer: 2
+  attackTimer: 1.5
   damage: 35
   attackLifetime: 1
   originalSpeed: 0

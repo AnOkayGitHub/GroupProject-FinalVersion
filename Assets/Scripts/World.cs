@@ -34,4 +34,8 @@ public static class World
                                                     "Robotic Travel Juggernaut",
                                                     "Nullification Golem",
                                                     "00111110 00111010 00101001" };
+    public static float remap(float val, float in1, float in2, float out1, float out2)
+    {
+        return out1 + (val - in1) * (out2 - out1) / (in2 - in1);
+    }
 }

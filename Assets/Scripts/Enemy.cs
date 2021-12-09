@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
     private float currentHealth;
     private float celebrateTime = 1f;
     private float fireworkCount = 0;
-    private float maxFireworkCount = 9;
+    private float maxFireworkCount = 3;
     private bool hasDestroyed = false;
     private bool canRandomMove = true;
     private bool canAttack = true;

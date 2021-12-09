@@ -17,7 +17,8 @@ public class UpdateUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bossName;
     [SerializeField] private GameObject bossHUD;
     [SerializeField] private GameObject shopHUD;
-    [SerializeField] private Animator gameOverHUD;
+    [SerializeField] private Animator HUDAnimator;
+    [SerializeField] private GameObject pauseHUD;
 
     private void Start()
     {
@@ -41,7 +42,7 @@ public class UpdateUI : MonoBehaviour
             World.bossHUD = bossHUD;
         }
 
-        if(World.bossHP == null)
+        if (World.bossHP == null)
         {
             World.bossHP = bossHPText;
         }
@@ -49,7 +50,12 @@ public class UpdateUI : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverHUD.Play("HUDGameover", -1, 0f);
+        HUDAnimator.Play("HUDGameover", -1, 0f);
+    }
+
+    public void Tutorial()
+    {
+        HUDAnimator.Play("tutorial", -1, 0f);
     }
 
     public void UpdateHealthbar(float current, float max)
@@ -68,9 +74,14 @@ public class UpdateUI : MonoBehaviour
         coinText.text = "x" + World.coins.ToString();
     }
 
+    public void TogglePauseHUD()
+    {
+        pauseHUD.gameObject.SetActive(!pauseHUD.gameObject.activeSelf);
+    }
+
     public void UpdateLevel()
     {
-        levelText.text = "Floor " + World.level.ToString();
+        levelText.text = "<color=#56F8E3><size=32>" + World.level.ToString() + "</size></color>F";
     }
 
     public void ToggleShopHud()

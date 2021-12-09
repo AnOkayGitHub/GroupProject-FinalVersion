@@ -68,9 +68,12 @@ public class PlayerController : MonoBehaviour
     private bool[] hasItem = new bool[] { false, false, false, false, false, false, false };
     private bool isBusy = false;
     private bool lost = false;
+    private bool isPaused = false;
+    private bool playedTutorial = false;
     
     private void Start()
     {
+        Time.timeScale = 1;
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -84,7 +87,8 @@ public class PlayerController : MonoBehaviour
 
         if (volumeProfile.TryGet<ColorAdjustments>(out caVal)) 
         { 
-            colorAdjustment = caVal; 
+            colorAdjustment = caVal;
+            colorAdjustment.colorFilter.value = Color.white;
         }
 
         pegLegSpeed = speed * 1.5f;
@@ -99,24 +103,38 @@ public class PlayerController : MonoBehaviour
 
         if (World.readyToPlay)
         {
+            if(!playedTutorial)
+            {
+                playedTutorial = true;
+                uiUpdater.Tutorial();
+            }
+
+            if(Input.GetKeyDown(KeyCode.Escape) && !isBusy)
+            {
+                PauseGame();
+            }
+
             if(!lightOn)
             {
                 lightOn = true;
                 flashlightAnimator.speed = 1;
             }
-
-            GetInput();
-            DetectDoors();
-            DetectTransition();
-            DetectShop();
-            GetFacing();
-
-            if (isMoving && canStep)
+           
+            if (!isPaused)
             {
-                canStep = false;
-                footstepSource.pitch = Random.Range(0.5f, 0.8f);
-                footstepSource.Play();
-                StartCoroutine("WaitForFootsteps");
+                GetInput();
+                DetectDoors();
+                DetectTransition();
+                DetectShop();
+                GetFacing();
+
+                if (isMoving && canStep)
+                {
+                    canStep = false;
+                    footstepSource.pitch = Random.Range(0.5f, 0.8f);
+                    footstepSource.Play();
+                    StartCoroutine("WaitForFootsteps");
+                }
             }
         }
 
@@ -462,6 +480,13 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsMoving", isMoving);
     }
 
+    public void PauseGame()
+    {
+        uiUpdater.TogglePauseHUD();
+        isPaused = !isPaused;
+        Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
+    }
+
     private void CreateProjectile()
     {
         GameObject proj = Instantiate(projectilePrefab);
@@ -586,6 +611,11 @@ public class PlayerController : MonoBehaviour
     public bool GetIsBusy()
     {
         return isBusy;
+    }
+
+    public bool GetIsPaused()
+    {
+        return isPaused;
     }
 
     private IEnumerator WaitForInvincibility()
