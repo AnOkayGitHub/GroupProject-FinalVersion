@@ -20,7 +20,7 @@ public class Level : MonoBehaviour
     [SerializeField] private int bossLevel = 5;
     [SerializeField] private int maxRooms = 15;
     [SerializeField] private float timeBetweenScans = 4f;
-    [SerializeField] private float introMovieTime;
+    [SerializeField] public float introMovieTime;
     [SerializeField] private float timeBetweenRoomCreation;
     [SerializeField] private float timeBeforeGeneration = 2f;
     [SerializeField] private bool waitForGenToHide = false;

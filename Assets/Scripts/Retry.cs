@@ -7,16 +7,26 @@ public class Retry : MonoBehaviour
 {
     [SerializeField] private GameObject settings;
     [SerializeField] private AudioSource clickSource;
+    [SerializeField] private Level level;
+
+    private void Start()
+    {
+        level = GetComponent<Level>();
+    }
 
     public void RetryGame()
     {
         clickSource.Play();
+        World.coins = 0;
+        World.items = new Dictionary<string, Sprite>();
         SceneManager.LoadScene("Main");
     }
 
     public void ExitToMain()
     {
         clickSource.Play();
+        World.coins = 0;
+        World.items = new Dictionary<string, Sprite>();
         SceneManager.LoadScene("Menu");
     }
 
@@ -30,13 +40,20 @@ public class Retry : MonoBehaviour
     {
         clickSource.Play();
         settings.SetActive(!settings.activeSelf);
+        Debug.Log(Time.timeScale);
     }
 
-    private void OnDisable()
+    public void SkipIntro(Animator animator)
     {
-        if(settings != null)
-        {
-            settings.SetActive(false);
-        }
+        animator.speed = 20;
+        StartCoroutine("WaitForSkip", animator);
+    }
+
+    private IEnumerator WaitForSkip(Animator animator)
+    {
+        yield return new WaitForSeconds(2f);
+        level.introMovieTime = 0;
+        World.readyToPlay = true;
+        animator.speed = 1;
     }
 }

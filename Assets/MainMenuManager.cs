@@ -21,7 +21,6 @@ public class MainMenuManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         UpdateMasterVolText();
-        fadeAnimator.Play("FadeFromBlack", -1, 0f);
         storedVol = AudioListener.volume;
     }
 

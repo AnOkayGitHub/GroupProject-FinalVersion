@@ -76,7 +76,6 @@ public class PlayerController : MonoBehaviour
     
     private void Start()
     {
-        Time.timeScale = 1;
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -106,6 +105,11 @@ public class PlayerController : MonoBehaviour
 
         if (World.readyToPlay)
         {
+            if(isPaused && Time.timeScale != 0)
+            {
+                Time.timeScale = 0;
+            }
+
             if(level.doIntroMovie)
             {
                 level.doIntroMovie = false;
@@ -500,7 +504,15 @@ public class PlayerController : MonoBehaviour
     {
         uiUpdater.TogglePauseHUD();
         isPaused = !isPaused;
-        Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
+
+        if(isPaused)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 
     private void CreateProjectile()
